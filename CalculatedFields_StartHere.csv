@@ -1,0 +1,5 @@
+TableName,FieldName,FieldType,Description,RemoteTableName,RemoteFieldName,LocalJoinFieldName,Calculation,Where,DataType,Length
+CartItem,UnitPrice,Lookup,The Product's unit price,Product,UnitPrice,Product,,,"decimal(18,4)",
+CartItem,SubTotal,Formula,SubTotal for the line item,,,,Quantity * UnitPrice,,"decimal(18,4)",
+ShoppingCart,CustomerName,Lookup,Lookup to the customer name,Customer,Name,Customer,,,String,150
+ShoppingCart,SubTotal,Rollup,Calculated SubTotal,CartItem,SubTotal,ShoppingCart,sum(values),,"decimal(18,4)",

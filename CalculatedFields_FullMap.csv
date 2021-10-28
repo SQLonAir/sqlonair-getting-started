@@ -1,0 +1,19 @@
+TableName,FieldName,FieldType,Description,RemoteTableName,RemoteFieldName,LocalJoinFieldName,Calculation,Where,DataType,Length,Precision
+CartItem,CartNumber,Lookup,The number asssigned to the items shopping cart,ShoppingCart,CartNumber,ShoppingCart,,,string,150,
+CartItem,CustomerName,Lookup,Lookup to the customer name,ShoppingCart,CustomerName,ShoppingCart,,,String,150,
+CartItem,CustomerEmailAddress,Lookup,Lookup to the customer email address,ShoppingCart,CustomerEmailAddress,ShoppingCart,,,String,150,
+CartItem,CustomerPhoneNumber,Lookup,Lookup to the customer phone number,ShoppingCart,CustomerPhoneNumber,ShoppingCart,,,String,150,
+CartItem,ProductName,Lookup,The name of the product in the cart,Product,Name,Product,,,String,150,
+CartItem,UnitPrice,Lookup,The Product's unit price,Product,UnitPrice,Product,,,decimal,,2
+CartItem,SubTotal,Formula,SubTotal for the line item,,,,Quantity * UnitPrice,,decimal,,2
+ShoppingCart,CustomerName,Lookup,Lookup to the customer name,Customer,Name,Customer,,,String,150,
+ShoppingCart,CustomerEmailAddress,Lookup,Lookup to the customer email address,Customer,EmailAddress,Customer,,,String,150,
+ShoppingCart,CustomerPhoneNumber,Lookup,Lookup to the customer phone number,Customer,PhoneNumber,Customer,,,String,150,
+ShoppingCart,SubTotal,Rollup,Calculated SubTotal,CartItem,SubTotal,ShoppingCart,sum(values),,decimal,18,2
+ShoppingCart,TaxRate,Lookup,Lookup to the customer's tax rate,Customer,TaxRate,Customer,,,decimal,,4
+ShoppingCart,Tax,Formula,Tax on the order,,,,SubTotal * TaxRate,,decimal,18,2
+ShoppingCart,Total,Formula,Order Total,,,,SubTotal + Tax,,decimal,,2
+Customer,TotalSales,Rollup,Total of all of customers shopping carts,ShoppingCart,Total,Customer,sum(values),,decimal,,
+Customer,IsWhale,Formula,True for customers w/ $100+ in cart,,,,"IF(TotalSales > 100, 1, 0)",,boolean,,
+Product,TotalInShoppingCarts,Rollup,SubTotal of product in every shopping carts,CartItem,SubTotal,Product,sum(values),,decimal,,2
+Product,UnitsInShoppingCarts,Rollup,Quantity of product in every shopping carts,CartItem,Quantity,Product,sum(values),,decimal,,
