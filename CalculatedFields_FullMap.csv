@@ -14,6 +14,6 @@ ShoppingCart,TaxRate,Lookup,Lookup to the customer's tax rate,Customer,TaxRate,C
 ShoppingCart,Tax,Formula,Tax on the order,,,,SubTotal * TaxRate,,decimal,18,2
 ShoppingCart,Total,Formula,Order Total,,,,SubTotal + Tax,,decimal,,2
 Customer,TotalSales,Rollup,Total of all of customers shopping carts,ShoppingCart,Total,Customer,sum(values),,decimal,,
-Customer,IsWhale,Formula,True for customers w/ $100+ in cart,,,,"IF(TotalSales > 100, 1, 0)",,boolean,,
+Customer,IsVIP,Formula,True for customers w/ $100+ in cart,,,,"IF(TotalSales > 100, 1, 0)",,boolean,,
 Product,TotalInShoppingCarts,Rollup,SubTotal of product in every shopping carts,CartItem,SubTotal,Product,sum(values),,decimal,,2
 Product,UnitsInShoppingCarts,Rollup,Quantity of product in every shopping carts,CartItem,Quantity,Product,sum(values),,decimal,,
