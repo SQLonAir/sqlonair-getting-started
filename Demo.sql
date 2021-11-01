@@ -7,31 +7,30 @@ use ACME_DB_SQLonAir;
  *********
  ******************************************************************************************
  ******************************************************************************************/
-
--- A Simple Query
-SELECT * FROM ShoppingCart WHERE SubTotal < 20;
-
-UPDATE Product set UnitPrice=50.00 WHERE Name='Product B'
-
 SELECT * FROM [product];
 SELECT * FROM [customer];
 SELECT * FROM [ShoppingCart];
 SELECT * FROM [CartItem];
 
+-- A Simple Query - FAIL
+SELECT * FROM ShoppingCart WHERE SubTotal < 20;
 
--- FINAL PRODUCTS
-SELECT Name, UnitPrice, UnitsInShoppingCarts, TotalInShoppingCarts FROM data.product ORDER BY Name;
+/******************************************************************************************
+ ******************************************************************************************
+ *********
+ *********  Data with SQL on Air
+ *********
+ ******************************************************************************************
+ ******************************************************************************************/
+-- A Simple Query
+SELECT * FROM ShoppingCart WHERE SubTotal < 20;
 
--- FINAL CUSTOMERs
-SELECT Name, PhoneNumber, EmailAddress, TaxRate, TotalSales, IsWhale FROM data.[customer]  order by Name;
+UPDATE Product set UnitPrice=5.00 WHERE Name='Product B'
 
--- CART ITEMs
-SELECT CartNumber, CustomerName, CustomerPhoneNumber, CustomerEmailAddress,
-	Quantity, ProductName, SubTotal FROM data.[CartItem] ci order by CartNumber, ProductName;
-
--- CARTs
-SELECT CartNumber, CartDate, CustomerName, CustomerPhoneNumber, CustomerEmailAddress, 
-		SubTotal, TaxRate, Tax, Total FROM data.[ShoppingCart] sc ORDER BY CartNumber
+SELECT Name, UnitsInShoppingCarts, UnitPrice, TotalInShoppingCarts FROM product ORDER BY Name;
+SELECT Name, PhoneNumber, EmailAddress, TaxRate, TotalSales, IsVIP FROM [customer]  order by TotalSales;
+SELECT CartNumber, CartDate, CustomerName, CustomerPhoneNumber, CustomerEmailAddress, SubTotal, TaxRate, Tax, Total FROM [ShoppingCart] sc ORDER BY CartNumber
+SELECT CartNumber, CustomerName, CustomerPhoneNumber, CustomerEmailAddress, ProductName, Quantity, UnitPrice, SubTotal FROM [CartItem] ci order by CartNumber, ProductName;
 
 
 /******************************************************************************************
@@ -57,6 +56,7 @@ WHERE SubTotal < 20
 GO
 THROW 51000, 'Stopping execution.  Following scripts should be run individually.', 0;
 
+/*
 SELECT ProductId, Name, UnitPrice FROM dbo.[product] order by Name;
 SELECT CustomerId, Name, PhoneNumber, emailAddress, TaxRate FROM dbo.[customer] order by Name;
 SELECT ShoppingCartId, CartNumber, CartDate, Customer FROM dbo.[ShoppingCart] order by CartNumber;
@@ -83,7 +83,7 @@ SELECT * FROM data.[customer];
 SELECT * FROM data.[ShoppingCart];
 SELECT * FROM data.[CartItem];
 
-
+*/
 
 /******************************************************************************************
  ******************************************************************************************
@@ -92,6 +92,7 @@ SELECT * FROM data.[CartItem];
  *********
  ******************************************************************************************
  ******************************************************************************************/
+ /*
 
 GO
 
@@ -110,6 +111,8 @@ WHERE SubTotal < 20
 GO
 THROW 51000, 'Stopping execution.  Following scripts should be run individually.', 0;
 
+
+/*
 -- Same query with Sql On Air!
 SELECT * FROM ShoppingCart WHERE SubTotal < 20
 
@@ -155,7 +158,7 @@ dbo.[ShoppingCart] sc
  ******************************************************************************************
  ******************************************************************************************/
 
-
+ /*
 
 SELECT CustomerId, Name, PhoneNumber, TaxRate, TotalSales FROM data.[customer] WHERE EmailAddress='ej@ssot.me';
 SELECT ShoppingCartId, CustomerName, CustomerPhoneNumber, TaxRate, SubTotal, Tax, Total FROM data.[ShoppingCart] WHERE CustomerEmailAddress = 'Ej@ssot.me';
@@ -170,3 +173,4 @@ UPDATE data.Product set UnitPrice=2.00 WHERE Name='Product A'
 SELECT Name, UnitsInShoppingCarts, UnitPrice, TotalInShoppingCarts FROM data.[product] WHERE Name='Product A';
 
 update data.product set name = replace( name, ' changed', '')
+*/
