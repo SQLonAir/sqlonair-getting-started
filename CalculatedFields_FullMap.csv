@@ -1,19 +1,19 @@
-TableName,FieldName,FieldType,Description,RemoteTableName,RemoteFieldName,LocalJoinFieldName,Calculation,Where,DataType,Length,Precision
-CartItem,CartNumber,Lookup,The number asssigned to the items shopping cart,ShoppingCart,CartNumber,ShoppingCart,,,string,150,
-CartItem,CustomerName,Lookup,Lookup to the customer name,ShoppingCart,CustomerName,ShoppingCart,,,String,150,
-CartItem,CustomerEmailAddress,Lookup,Lookup to the customer email address,ShoppingCart,CustomerEmailAddress,ShoppingCart,,,String,150,
-CartItem,CustomerPhoneNumber,Lookup,Lookup to the customer phone number,ShoppingCart,CustomerPhoneNumber,ShoppingCart,,,String,150,
-CartItem,ProductName,Lookup,The name of the product in the cart,Product,Name,Product,,,String,150,
-CartItem,UnitPrice,Lookup,The Product's unit price,Product,UnitPrice,Product,,,decimal,,2
-CartItem,SubTotal,Formula,SubTotal for the line item,,,,Quantity * UnitPrice,,decimal,,2
-ShoppingCart,CustomerName,Lookup,Lookup to the customer name,Customer,Name,Customer,,,String,150,
-ShoppingCart,CustomerEmailAddress,Lookup,Lookup to the customer email address,Customer,EmailAddress,Customer,,,String,150,
-ShoppingCart,CustomerPhoneNumber,Lookup,Lookup to the customer phone number,Customer,PhoneNumber,Customer,,,String,150,
-ShoppingCart,SubTotal,Rollup,Calculated SubTotal,CartItem,SubTotal,ShoppingCart,sum(values),,decimal,18,2
-ShoppingCart,TaxRate,Lookup,Lookup to the customer's tax rate,Customer,TaxRate,Customer,,,decimal,,4
-ShoppingCart,Tax,Formula,Tax on the order,,,,SubTotal * TaxRate,,decimal,18,2
-ShoppingCart,Total,Formula,Order Total,,,,SubTotal + Tax,,decimal,,2
-Customer,TotalSales,Rollup,Total of all of customers shopping carts,ShoppingCart,Total,Customer,sum(values),,decimal,,
-Customer,IsVIP,Formula,True for customers w/ $100+ in cart,,,,"IF(TotalSales > 100, 1, 0)",,boolean,,
-Product,TotalInShoppingCarts,Rollup,SubTotal of product in every shopping carts,CartItem,SubTotal,Product,sum(values),,decimal,,2
-Product,UnitsInShoppingCarts,Rollup,Quantity of product in every shopping carts,CartItem,Quantity,Product,sum(values),,decimal,,
+TableName,FieldName,FieldType,Description,RemoteTableName,RemoteFieldName,LocalJoinFieldName,Calculation,Where,DataType,Length,Precision,WriteOnce
+CartItem,UnitPrice,Reference,The Product's unit price,Product,UnitPrice,ProductId,,,decimal,,2,
+CartItem,SubTotal,Calculation,SubTotal for the line item,,,,Quantity * UnitPrice,,decimal,,2,
+ShoppingCart,CustomerName,Reference,Lookup to the customer name,Customer,Name,CustomerId,,,String,150,,
+ShoppingCart,SubTotal,Aggregate,Calculated SubTotal,CartItem,SubTotal,ShoppingCartId,sum(values),,decimal,18,2,
+CartItem,CartNumber,Reference,The number asssigned to the items shopping cart,ShoppingCart,CartNumber,ShoppingCartId,,,string,150,,
+CartItem,CustomerName,Reference,Lookup to the customer name,ShoppingCart,CustomerName,ShoppingCartId,,,String,150,,
+CartItem,EmailAddress,Reference,Lookup to the customer email address,ShoppingCart,EmailAddress,ShoppingCartId,,,String,150,,
+CartItem,PhoneNumber,Reference,Lookup to the customer phone number,ShoppingCart,PhoneNumber,ShoppingCartId,,,String,150,,
+CartItem,ProductName,Reference,The name of the product in the cart,Product,Name,ProductId,,,String,150,,
+ShoppingCart,EmailAddress,Reference,Lookup to the customer email address,Customer,EmailAddress,CustomerId,,,String,150,,
+ShoppingCart,PhoneNumber,Reference,Lookup to the customer phone number,Customer,PhoneNumber,CustomerId,,,String,150,,
+ShoppingCart,TaxRate,Reference,Lookup to the customer's tax rate,Customer,TaxRate,CustomerId,,,decimal,,4,
+ShoppingCart,Tax,Calculation,Tax on the order,,,,SubTotal * TaxRate,,decimal,18,2,
+ShoppingCart,Total,Calculation,Order Total,,,,SubTotal + Tax,,decimal,,2,
+Customer,TotalSales,Aggregate,Total of all of customers shopping carts,ShoppingCart,Total,CustomerId,sum(values),,decimal,,,
+Customer,IsVIP,Calculation,True for customers w/ $100+ in cart,,,,"IF(TotalSales > 100, 1, 0)",,boolean,,,
+Product,CartValue,Aggregate,SubTotal of product in every shopping carts,CartItem,SubTotal,ProductId,sum(values),,decimal,,2,
+Product,CartCount,Aggregate,Quantity of product in every shopping carts,CartItem,Quantity,ProductId,sum(values),,decimal,,,

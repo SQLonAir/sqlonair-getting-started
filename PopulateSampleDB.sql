@@ -4,8 +4,7 @@ BEGIN
 END
 GO
          
-
-Use [ACME_DB];
+USE ACME_DB;
 
 /****************** DROP TABLES ***********************/
 
@@ -95,7 +94,7 @@ CREATE TABLE [dbo].[ShoppingCart](
 	[ShoppingCartId] [nvarchar](150) NOT NULL,
 	[CartNumber] [int] NULL,
 	[CartDate] DateTime NULL,
-	[Customer] [nvarchar](150) NULL,
+	[CustomerId] [nvarchar](150) NULL,
  CONSTRAINT [PK_ShoppingCart] PRIMARY KEY CLUSTERED 
 (
 	[ShoppingCartId] ASC
@@ -106,7 +105,7 @@ GO
 ALTER TABLE [dbo].[ShoppingCart] ADD  CONSTRAINT [DF_ShoppingCart_CartId]  DEFAULT (newid()) FOR [ShoppingCartId]
 GO
 
-ALTER TABLE [dbo].[ShoppingCart]  WITH CHECK ADD  CONSTRAINT [FK_ShoppingCart_Customer] FOREIGN KEY([Customer])
+ALTER TABLE [dbo].[ShoppingCart]  WITH CHECK ADD  CONSTRAINT [FK_ShoppingCart_Customer] FOREIGN KEY([CustomerId])
 REFERENCES [dbo].[Customer] ([CustomerId])
 GO
 
@@ -115,8 +114,8 @@ GO
 
 CREATE TABLE [dbo].[CartItem](
 	[CartItemId] [nvarchar](150) NOT NULL,
-	[ShoppingCart] [nvarchar](150) NULL,
-	[Product] [nvarchar](150) NULL,
+	[ShoppingCartId] [nvarchar](150) NULL,
+	[ProductId] [nvarchar](150) NULL,
 	[Quantity] [decimal](18, 2) NULL,
  CONSTRAINT [PK_CartItem] PRIMARY KEY CLUSTERED 
 (
@@ -128,14 +127,14 @@ GO
 ALTER TABLE [dbo].[CartItem] ADD  CONSTRAINT [DF_CartItem_CartItemId]  DEFAULT (newid()) FOR [CartItemId]
 GO
 
-ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_ShoppingCart] FOREIGN KEY([ShoppingCart])
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_ShoppingCart] FOREIGN KEY([ShoppingCartId])
 REFERENCES [dbo].[ShoppingCart] ([ShoppingCartId])
 GO
 
 ALTER TABLE [dbo].[CartItem] CHECK CONSTRAINT [FK_CartItem_ShoppingCart]
 GO
 
-ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_Product] FOREIGN KEY([Product])
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_Product] FOREIGN KEY([ProductId])
 REFERENCES [dbo].[Product] ([ProductId])
 GO
 
@@ -165,17 +164,17 @@ DECLARE @maryId NVARCHAR(50) = newid()
 INSERT INTO Customer (CustomerId, Name, PhoneNumber, EmailAddress, TaxRate) VALUES (@maryId, 'mary', '525-555-7890', 'marshopy@ssot.me', 0.05);
 
 DECLARE @o1 NVARCHAR(50) = newid();
-INSERT INTO [ShoppingCart] (ShoppingCartId, CartNumber, CartDate, Customer) VALUES (@o1, 1250, getDate(), @ejId);
+INSERT INTO [ShoppingCart] (ShoppingCartId, CartNumber, CartDate, CustomerId) VALUES (@o1, 1250, getDate(), @ejId);
 
-INSERT INTO CartItem (ShoppingCart, Product, Quantity) VALUES (@o1, @p1, 3);
+INSERT INTO CartItem (ShoppingCartId, ProductId, Quantity) VALUES (@o1, @p1, 3);
 
 DECLARE @o2 NVARCHAR(50) = newid();
-INSERT INTO [ShoppingCart] (ShoppingCartId, CartNumber, CartDate, Customer) VALUES (@o2, 1251, getDate(), @bobId);
+INSERT INTO [ShoppingCart] (ShoppingCartId, CartNumber, CartDate, CustomerId) VALUES (@o2, 1251, getDate(), @bobId);
 
-INSERT INTO CartItem (ShoppingCart, Product, Quantity) VALUES (@o2, @p1, 1);
-INSERT INTO CartItem (ShoppingCart, Product, Quantity) VALUES (@o2, @p2, 5);
+INSERT INTO CartItem (ShoppingCartId, ProductId, Quantity) VALUES (@o2, @p1, 1);
+INSERT INTO CartItem (ShoppingCartId, ProductId, Quantity) VALUES (@o2, @p2, 5);
 
 DECLARE @o3 NVARCHAR(50) = newid();
-INSERT INTO [ShoppingCart] (ShoppingCartId, CartNumber, CartDate, Customer) VALUES (@o3, 1252, getDate(), @maryId);
+INSERT INTO [ShoppingCart] (ShoppingCartId, CartNumber, CartDate, CustomerId) VALUES (@o3, 1252, getDate(), @maryId);
 
-INSERT INTO CartItem (ShoppingCart, Product, Quantity) VALUES (@o3, @p2, 1);
+INSERT INTO CartItem (ShoppingCartId, ProductId, Quantity) VALUES (@o3, @p2, 1);

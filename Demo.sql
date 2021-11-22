@@ -1,5 +1,4 @@
 use ACME_DB;
-use ACME_DB_SQLonAir;
 /******************************************************************************************
  ******************************************************************************************
  *********
@@ -7,6 +6,9 @@ use ACME_DB_SQLonAir;
  *********
  ******************************************************************************************
  ******************************************************************************************/
+
+UPDATE Product set UnitPrice=50.00 WHERE Name='Product B'
+
 SELECT * FROM [product];
 SELECT * FROM [customer];
 SELECT * FROM [ShoppingCart];
@@ -22,16 +24,18 @@ SELECT * FROM ShoppingCart WHERE SubTotal < 20;
  *********
  ******************************************************************************************
  ******************************************************************************************/
+use ACME_DB_SQLonAir;
+
+UPDATE Product set UnitPrice=500.00 WHERE Name='Product B'
+
+SELECT Name, CartCount, UnitPrice, CartValue FROM product ORDER BY Name;
+SELECT Name, PhoneNumber, EmailAddress, TaxRate, TotalSales, IsVIP FROM [customer]  order by TotalSales;
+SELECT CartNumber, CartDate, CustomerName, PhoneNumber, EmailAddress, SubTotal, TaxRate, Tax, Total FROM [ShoppingCart] sc ORDER BY CartNumber
+SELECT CartNumber, CustomerName, PhoneNumber, EmailAddress, ProductName, Quantity, UnitPrice, SubTotal FROM [CartItem] ci order by CartNumber, ProductName;
+
+
 -- A Simple Query
 SELECT * FROM ShoppingCart WHERE SubTotal < 20;
-
-UPDATE Product set UnitPrice=5.00 WHERE Name='Product B'
-
-SELECT Name, UnitsInShoppingCarts, UnitPrice, TotalInShoppingCarts FROM product ORDER BY Name;
-SELECT Name, PhoneNumber, EmailAddress, TaxRate, TotalSales, IsVIP FROM [customer]  order by TotalSales;
-SELECT CartNumber, CartDate, CustomerName, CustomerPhoneNumber, CustomerEmailAddress, SubTotal, TaxRate, Tax, Total FROM [ShoppingCart] sc ORDER BY CartNumber
-SELECT CartNumber, CustomerName, CustomerPhoneNumber, CustomerEmailAddress, ProductName, Quantity, UnitPrice, SubTotal FROM [CartItem] ci order by CartNumber, ProductName;
-
 
 /******************************************************************************************
  ******************************************************************************************
